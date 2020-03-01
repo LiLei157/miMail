@@ -6,12 +6,12 @@ import VueAxios from 'vue-axios'  // 对axios进行处理，将axios挂载到Vue
 
 import App from './App.vue'
 
-const mock = true;
+const mock = false;
 if(mock){
   require("./mock/api")
 }
 
-// axios.defaults.baseURL = "/api" // 根据前端跨域方案的不同，而选择不同的写法
+axios.defaults.baseURL = "/api" // 根据前端跨域方案的不同，而选择不同的写法
 axios.defaults.timeout = 8000;  // 设置超时时间
 // axios响应拦截，对服务器返回的接口数据进行处理
 axios.interceptors.response.use(function(response){
