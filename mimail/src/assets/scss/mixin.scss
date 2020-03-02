@@ -1,0 +1,16 @@
+/**
+将重复的样式抽离成函数的样式，通过调用函数传参的方式使用*/
+
+// flex布局
+@mixin flex($jc:space-between,$ac:center) {
+    display:flex;   //flex布局
+    justify-content: $jc; // 对齐方式：两端对齐
+    align-items: $ac;
+}
+//背景图片
+@mixin bgImg($w:0,$h:0,$bg:'',$size:contain) {
+    width: $w;
+    height: $h;
+    background: url($bg) no-repeat center;
+    background-size: $size;
+}

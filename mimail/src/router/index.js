@@ -9,7 +9,7 @@ import OrderList from '../pages/orderList'  // 订单列表
 import OrderPay from '../pages/orderPay'  //订单支付
 import OrderConfirm from '../pages/orderConfirm'  //订单确认
 import Cart from '../pages/cart'  //购物车
-// import Login from '../pages/login'  //登录
+import Login from '../pages/login'  //登录
 import AliPay from '../pages/aliPay'  //支付宝跳转
 
 
@@ -25,6 +25,7 @@ export default new VueRouter({
       path:'/', //path路径
       name:'home',  
       component:Home,  // 组件
+      redirect:'/index',  //默认跳转路径
       // home下的子路由
       children:[  
         //首页路由
@@ -78,6 +79,11 @@ export default new VueRouter({
       path:'/cart',
       name:'cart',
       component:Cart
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:Login
     }
   ]
 })
