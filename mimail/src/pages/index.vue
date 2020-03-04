@@ -1,12 +1,17 @@
 <template>
-    <div>
-       Index首页面 
+    <div class="index">
+       Index首页面
+       <service-bar></service-bar> 
     </div>
 </template>
 
 <script>
+    import ServiceBar from '../components/ServiceBar';
     export default {
-      name:'index'  
+      name:'index',
+      components:{
+        ServiceBar
+      }  
     }
 </script>
 
