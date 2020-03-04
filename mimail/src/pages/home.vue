@@ -19,5 +19,5 @@
 </script>
 
 <style lang="scss" scoped>
-
+    @import ".././assets/scss/reset.scss";
 </style>

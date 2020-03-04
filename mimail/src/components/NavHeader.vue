@@ -125,6 +125,7 @@ export default {
 @import ".././assets/scss/base.scss"; //导入scss文件
 @import ".././assets/scss/mixin.scss"; //导入mixin
 @import ".././assets/scss/config.scss";
+@import ".././assets/scss/reset.scss";
 .header {
   .nav-topbar {
     height: 39px;
@@ -214,6 +215,7 @@ export default {
           left: 0;
           z-index: 10;
           box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
+          background-color: #fff;
           border-top: 1px solid #E5E5E5;
           transition: all 1s;
           ul {
