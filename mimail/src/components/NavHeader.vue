@@ -214,6 +214,7 @@ export default {
           top: 112px;
           left: 0;
           z-index: 10;
+          overflow: hidden;
           box-shadow: 0px 7px 6px 0px rgba(0, 0, 0, 0.11);
           background-color: #fff;
           border-top: 1px solid #E5E5E5;

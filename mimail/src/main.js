@@ -6,7 +6,7 @@ import VueAxios from 'vue-axios'  // 对axios进行处理，将axios挂载到Vue
 
 import App from './App.vue'
 
-const mock = false;
+const mock = true;
 if(mock){
   require("./mock/api")
 }

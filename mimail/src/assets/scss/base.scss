@@ -3,3 +3,19 @@
     margin-left: auto;
     margin-right: auto;
 }
+//清除浮动
+.clearfix:before,.clearfix:after{
+    display: table;
+    content:' '
+}
+.clearfix:after{
+    clear: both;
+}
+//左浮动
+.f-left{
+    float: left;
+}
+//右浮动
+.f-right{
+    float: right;
+}

@@ -1,15 +1,9 @@
-import Mock, { Random } from 'mockjs'
+import Mock from 'mockjs'
+import indexApi from './index/indexApi'
 
-const list = []
-for(let i = 0; i < 10; i++){
-    list.push({
-        "id":Random.guid(),
-        "name":Random.cname(),
-        "email":Random.email()
-    })
-}
-
-Mock.mock('/list',{
-    "status":0,
-    "data":list
+// 设置超时时间
+Mock.setup({
+    timeout:"200-1000"
 })
+
+Mock.mock(/\/index\/getProductList/,'get',indexApi.getProductList)
