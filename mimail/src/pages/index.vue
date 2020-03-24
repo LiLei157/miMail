@@ -78,18 +78,31 @@
           </div>
           <div class="product-right-list f-right">
             <div class="product-item" v-for="(item,index) in productList" :key="index">
+              <img class="product-img" :src="`${item.url}`" />
               <a :href="`#/product/${item.id}`">
-                <img :src="`${item.url}`" />
                 <p class="label">{{item.label}}</p>
                 <p class="subtitle">{{item.subtitle}}</p>
+              </a>
+              <div class="product-price">
                 <span class="discount">{{item.discount}}元起</span>
                 <span class="price" v-show="item.discount != item.price">{{item.price}}元</span>
-              </a>
+                <a class="cart-pro" href="javascript:;"></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <module 
+    moduleType="middle" 
+    dialogTitle="标题" 
+    btnType="sureBtn" 
+    sureBtn="查看购物车">
+      <!-- 往组件中的插槽中插入内容 -->
+      <template v-slot:body>
+        <p>成功添加至购物车!</p>
+      </template>
+    </module>
     <service-bar></service-bar>
   </div>
 </template>
@@ -98,13 +111,15 @@
 import ServiceBar from "../components/ServiceBar";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import Module from "../components/Module"
 
 export default {
   name: "index",
   components: {
     swiper,
     swiperSlide,
-    ServiceBar
+    ServiceBar,
+    Module
   },
   data() {
     return {
@@ -193,6 +208,7 @@ export default {
 @import ".././assets/scss/config.scss";
 @import ".././assets/scss/mixin.scss";
 .index {
+  position: relative;
   .container {
     // 轮播图
     .swiper-box {
@@ -298,56 +314,65 @@ export default {
             }
           }
         }
-        .product-left-banner:hover{
-            margin-top: -3px;
-            box-shadow: 7px 7px 20px rgba(0,0,0,.1);
-            transition: all .7s;
+        .product-left-banner:hover {
+          margin-top: -3px;
+          box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.1);
+          transition: all 0.7s;
         }
-        .product-right-list{
+        .product-right-list {
           width: 986px;
           display: flex;
-          flex-wrap:wrap;
+          flex-wrap: wrap;
           justify-content: space-between;
-          .product-item{
+          .product-item {
             width: 236px;
             height: 302px;
             background-color: $colorG;
             text-align: center;
             margin-bottom: 14px;
-            transition: all .7s;
-            a{
+            transition: all 0.7s;
+            .product-img {
+              width: 190px;
+              height: 195px;
+              margin-top: 24px;
+            }
+            a {
               display: inline-block;
-              width: 100%;
-              height: 100%;
-              img{
-                width: 190px;
-                height: 195px;
-                margin-top:24px;
+              p:hover {
+                color: $colorA;
               }
-              .label{
+              .label {
                 font-size: $fontJ;
                 color: $colorB;
                 margin-bottom: 6px;
               }
-              .subtitle{
+              .subtitle {
                 color: $colorD;
                 margin-bottom: 9px;
               }
-              .discount{
-                color:$colorA;
+            }
+            .product-price {
+              .discount {
+                color: $colorA;
                 margin-right: 5px;
                 font-size: $fontJ;
               }
-              .price{
+              .price {
                 text-decoration: line-through;
                 color: #b0b0b0;
               }
+              .cart-pro{
+                display: inline-block;
+                @include bgImg(22px,22px,"/imgs/icon-cart-hover.png",contain);
+                vertical-align: middle;
+                margin-left: 15px;
+              }
             }
           }
-          .product-item:hover{
+          .product-item:hover {
             margin-top: -3px;
-            box-shadow: 7px 7px 20px rgba(0,0,0,.1);
-            transition: all .7s;
+            box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.7s;
           }
         }
       }

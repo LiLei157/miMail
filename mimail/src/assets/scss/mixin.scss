@@ -14,3 +14,11 @@
     background: url($bg) no-repeat center;
     background-size: $size;
 }
+
+// 按钮设置：宽，高，行高，字体大小
+@mixin btn($w,$h,$lineHeight,$fontSize) {
+    width: $w;
+    height: $h;
+    line-height: $lineHeight;
+    font-size: $fontSize;
+}
