@@ -1,0 +1,72 @@
+@import ".././assets/scss/config.scss";
+@import ".././assets/scss/btnStyle.scss";
+@import ".././assets/scss/mixin.scss";
+
+  //vue提供的transition组件
+  .module-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+    transition: all .5s;
+    &.slide-enter-active{
+      top: 0;
+    }
+    &.slide-leave-active{
+      top:-100%;
+    }
+    &.slide-enter{
+      top:-100%;
+    }
+    .cover {
+      position: fixed;
+      opacity: 0.5;
+      background-color: #000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .dialog {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 660px;
+      height: auto;
+      background-color: #fff;
+      .dialog-header {
+        height: 60px;
+        font-size: 16px;
+        line-height: 60px;
+        padding: 0 26px;
+        background-color: $colorJ;
+        position: relative;
+        .icon-close {
+          @include bgImg(16px, 16px, "/imgs/icon-close.png");
+          position: absolute;
+          top: 50%;
+          right: 25px;
+          transform: translateY(-50%);
+          cursor: pointer;
+        }
+      }
+      .dialog-content {
+        padding: 40px;
+        background-color: #fff;
+        font-size: 14px;
+      }
+      .dialog-footer {
+        text-align: center;
+        padding: 20px;
+        background-color: $colorJ;
+        a {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+

@@ -86,24 +86,28 @@
               <div class="product-price">
                 <span class="discount">{{item.discount}}元起</span>
                 <span class="price" v-show="item.discount != item.price">{{item.price}}元</span>
-                <a class="cart-pro" href="javascript:;"></a>
+                <a class="cart-pro" href="javascript:;" @click="openDialog(item.id)"></a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <module 
-    moduleType="middle" 
-    dialogTitle="标题" 
-    btnType="sureBtn" 
-    sureBtn="查看购物车">
+    <service-bar></service-bar>
+    <module
+      moduleType="middle"
+      dialogTitle="标题"
+      btnType="sureBtn"
+      :showModule="isShow"
+      @closeDialog="closeDialog"
+      @sureHandler="sureHandler"
+      sureBtn="查看购物车"
+    >
       <!-- 往组件中的插槽中插入内容 -->
       <template v-slot:body>
         <p>成功添加至购物车!</p>
       </template>
     </module>
-    <service-bar></service-bar>
   </div>
 </template>
 
@@ -111,7 +115,7 @@
 import ServiceBar from "../components/ServiceBar";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
-import Module from "../components/Module"
+import Module from "../components/Module";
 
 export default {
   name: "index",
@@ -185,7 +189,8 @@ export default {
         url: "/imgs/banner-1.png"
       },
       //index页下product列表数据
-      productList: []
+      productList: [],
+      isShow: false
     };
   },
   mounted() {
@@ -198,6 +203,18 @@ export default {
         console.log(res);
         this.productList = res;
       });
+    },
+    // 点击某个商品item时，传递参数id
+    openDialog(id) {
+      this.isShow = true;
+      console.log("商品id："+id)
+    },
+    closeDialog() {
+      this.isShow = false;
+    },
+    sureHandler() {
+      console.log("该商品的id是：");
+      this.$router.push("/cart");
     }
   }
 };
@@ -361,9 +378,14 @@ export default {
                 text-decoration: line-through;
                 color: #b0b0b0;
               }
-              .cart-pro{
+              .cart-pro {
                 display: inline-block;
-                @include bgImg(22px,22px,"/imgs/icon-cart-hover.png",contain);
+                @include bgImg(
+                  22px,
+                  22px,
+                  "/imgs/icon-cart-hover.png",
+                  contain
+                );
                 vertical-align: middle;
                 margin-left: 15px;
               }
