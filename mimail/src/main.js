@@ -3,6 +3,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'  // 对axios进行处理，将axios挂载到Vue对象上
+import VueLazyload from 'vue-lazyload'
 
 import App from './App.vue'
 
@@ -27,6 +28,10 @@ axios.interceptors.response.use(function(response){
 })
 //全局使用axios
 Vue.use(VueAxios,axios)
+//全局使用vue-lazyload，并设置配置项
+Vue.use(VueLazyload,{
+  loading:'/imgs/loading-svg/loading-bars.svg'
+})
 Vue.config.productionTip = false
 new Vue({
   router,

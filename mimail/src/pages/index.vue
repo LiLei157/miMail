@@ -78,7 +78,7 @@
           </div>
           <div class="product-right-list f-right">
             <div class="product-item" v-for="(item,index) in productList" :key="index">
-              <img class="product-img" :src="`${item.url}`" />
+              <img class="product-img" v-lazy="`${item.url}`" />
               <a :href="`#/product/${item.id}`">
                 <p class="label">{{item.label}}</p>
                 <p class="subtitle">{{item.subtitle}}</p>
