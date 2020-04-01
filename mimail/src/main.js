@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import router from './router'
-import store from './store'
+import store from './store/index'
 import axios from 'axios'
 import VueAxios from 'vue-axios'  // 对axios进行处理，将axios挂载到Vue对象上
 import VueLazyload from 'vue-lazyload'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
 
 import App from './App.vue'
 
@@ -24,8 +26,11 @@ axios.interceptors.response.use(function(response){
   }else if(res.status == 10){
     // 代码10：表示未登录
     window.location.href = "/#/login"
+  }else{
+    return res
   }
 })
+Vue.use(ElementUI)
 //全局使用axios
 Vue.use(VueAxios,axios)
 //全局使用vue-lazyload，并设置配置项

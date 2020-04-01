@@ -1,7 +1,7 @@
 export default {
     getProductList: () => {
         return {
-            status: "0",
+            status: 0,
             message: '请求成功',
             data: [{
                     id: '10001',
@@ -70,5 +70,29 @@ export default {
                 }
             ]
         }
+    },
+    ToLogin:(config)=>{
+      //对传递进来的参数进行解构赋值，获取到用户名和密码进行比较
+      let body = JSON.parse(config.body)
+      let {user,pwd} = {user:body.user,pwd:body.password}
+      console.log(user,pwd)
+      console.log(user == 'admin' && pwd == 'admin')
+      if(user === 'admin' && pwd === 'admin'){
+          console.log('su....')
+        return{
+            status:1,
+            message:'登录成功',
+            data:{
+                username:user,
+                userToken:JSON.stringify(user + '-' + new Date().getTime()),
+            }
+        }
+      }else{
+          console.log('err...')
+          return{
+              status:-1,
+              message:'账号或密码错误',
+          }
+      } 
     }
 }

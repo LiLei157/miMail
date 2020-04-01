@@ -3,7 +3,8 @@ import indexApi from './index/indexApi'
 
 // 设置超时时间
 Mock.setup({
-    timeout:"200-1000"
+    timeout:"1000-3000"
 })
 
 Mock.mock(/\/index\/getProductList/,'get',indexApi.getProductList)
+Mock.mock(/\/login/,'post',indexApi.ToLogin)
