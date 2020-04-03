@@ -6,5 +6,5 @@ Mock.setup({
     timeout:"1000-3000"
 })
 
-Mock.mock(/\/index\/getProductList/,'get',indexApi.getProductList)
-Mock.mock(/\/login/,'post',indexApi.ToLogin)
+Mock.mock(/\/manager\/product\/list.do/,'get',indexApi.getProductList)
+Mock.mock(/\/user\/login/,'post',indexApi.ToLogin)

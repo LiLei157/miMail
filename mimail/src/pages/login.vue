@@ -23,8 +23,8 @@
             <!-- 账号登录div -->
             <div class="user-to-login" v-show="loginType == '0'">
               <div class="input">
-                <input type="text" ref="userInput" placeholder="邮箱/手机号码/小米ID" />
-                <input type="password" ref="pwdInput" placeholder="密码" />
+                <input type="text" v-model="loginInfo.username" placeholder="邮箱/手机号码/小米ID" />
+                <input type="password" v-model="loginInfo.password" placeholder="密码" />
               </div>
               <!-- 警告框 : 这里使用element-ui提供的图标库 -->
               <div class="warning" v-if="wraningText">
@@ -60,11 +60,16 @@
 </template>
 
 <script>
-// import {mapState} from 'vuex';
+import {mapActions} from 'vuex';
 export default {
   name: "login",
   data() {
     return {
+      //用户信息，包括用户名和密码
+      loginInfo:{
+        username:'',
+        password:''
+      },
       loginList: [
         {
           type: "1",
@@ -99,8 +104,8 @@ export default {
     // 登录处理：包括校检用户名和密码
     loginHandler() {
       // 获取输入框内容并判断，把错误信息赋值给warning中的span
-      const username = this.$refs.userInput.value;
-      const password = this.$refs.pwdInput.value;
+      let {username,password} = this.loginInfo
+      console.log(username,password)
       if (username == "") {
         this.wraningText = "请输入账号";
       } else if (password == "") {
@@ -108,25 +113,24 @@ export default {
       } else {
         // 如果账号密码都不为空，则发送login请求，根据服务器返回信息渲染warningText
         this.axios
-          .post("/login", {
-            user: username,
-            password: password
+          .post("/user/login", {
+            username,
+            password
           })
           .then(res => {
-            console.log('res',res.status)
-            if(res.status == 1){
-            this.$store.commit("toLogin", username);
+            console.log(res)
+            //将服务器返回的userId设置到cookie中，每次发送请求就会自动在cookie上加上userId作为身份识别
+            this.$cookie.set('userId',res.id,1)
+            // 登录成功时vuex事件派发
+            console.log('dispatch:',res.username)
+            // //1、 通过dispatch()方法可以触发actions,可以通过mapAction的解构赋值简化
+            // this.$store.dispatch('saveUserName',res.username)
+            this.saveUserName(res.username)
             this.$router.push({ path: "/#/index" });
-            }else{
-              // 否则设置报错信息
-              this.wraningText = res.message
-            }
           })
-          .catch(e => {
-            console.log(e);
-          });
       }
     },
+    ...mapActions(['saveUserName']),
     phoneHandler() {},
     registerHandler() {},
     passwordHandler() {

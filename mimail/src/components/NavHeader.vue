@@ -16,7 +16,7 @@
             <i class="el-icon-arrow-down"></i>
             <ul class="children">
               <li v-for="(item,index) in personal" :key="index">
-                <a href="javascript:;">{{item.label}}</a>
+                <a href="javascript:;" @click="clickMenuHandler(item.type)">{{item.label}}</a>
               </li>
             </ul>
           </div>
@@ -26,7 +26,7 @@
 
           <a href="javascript:;" class="cart">
             <span class="icon-cart"></span>
-            购物车
+            购物车({{cartCount}})
           </a>
         </div>
       </div>
@@ -116,7 +116,8 @@ export default {
   },
   computed: {
     ...mapState({
-      username: state => state.username
+      username: state => state.username,
+      cartCount:state => state.cartCount
     })
   },
   mounted() {
@@ -144,6 +145,31 @@ export default {
     //登录
     toLogin() {
       this.$router.push({ path: "/login" });
+    },
+    // 登录之后的用户信息下的子menu
+    clickMenuHandler(type){
+      switch(type){
+        case '1':
+          //个人中心
+          break;
+        case '2':
+          //评价晒单
+          break;
+        case '3':
+          //我的喜欢
+          break;
+        case '4':
+          //小米账户
+          break;
+        case '5':
+          //退出登录:1、发送post请求退出登录 2、将vuex中的username设置为空  3、跳转到登录页面
+          this.axios.post('/user/logout').then(res =>{
+            console.log(res)
+            this.$store.dispatch('saveUserName','')
+            this.$router.replace({path:'/login'})
+          })
+                  
+      }
     }
   },
   //局部的过滤器
@@ -164,8 +190,8 @@ export default {
 @import ".././assets/scss/reset.scss";
 .header {
   .nav-topbar {
-    height: 39px;
-    line-height: 39px;
+    height: 40px;
+    line-height: 40px;
     background-color: #333;
     .container {
       @include flex();

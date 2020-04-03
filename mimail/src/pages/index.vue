@@ -78,14 +78,13 @@
           </div>
           <div class="product-right-list f-right">
             <div class="product-item" v-for="(item,index) in productList" :key="index">
-              <img class="product-img" v-lazy="`${item.url}`" />
+              <img class="product-img" v-lazy="`${item.mainImage}`" />
               <a :href="`#/product/${item.id}`">
-                <p class="label">{{item.label}}</p>
+                <p class="label">{{item.name}}</p>
                 <p class="subtitle">{{item.subtitle}}</p>
               </a>
               <div class="product-price">
-                <span class="discount">{{item.discount}}元起</span>
-                <span class="price" v-show="item.discount != item.price">{{item.price}}元</span>
+                <span class="discount">{{item.price}}元起</span>
                 <a class="cart-pro" href="javascript:;" @click="openDialog(item.id)"></a>
               </div>
             </div>
@@ -113,10 +112,10 @@
 
 <script>
 import ServiceBar from "../components/ServiceBar";
-import "swiper/dist/css/swiper.css";
+import "swiper/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import Module from "../components/Module";
-
+// import log from '../util/LogInfo';
 export default {
   name: "index",
   components: {
@@ -132,10 +131,6 @@ export default {
         autoplay: true, //autoplay:开启自动播放
         effect: "fade", //effect:设置切换效果
         loop: true,
-        // cubeEffect:{
-        //   shadowOffset: 100,
-        //   shadowScale: 0.6
-        // },
         pagination: {
           el: ".swiper-pagination",
           clickable: true
@@ -199,9 +194,14 @@ export default {
   methods: {
     // 获取商品列表并赋值
     getProductList() {
-      this.axios.get("/index/getProductList").then(res => {
-        console.log(res);
-        this.productList = res;
+      this.axios.get("/products",{params:{
+        categoryId:100012,
+        pageSize:8
+      }}).then(res => {
+        // console.log(res);
+        // // log('index',res)
+        this.productList = res.list;
+        console.log(this.productList)
       });
     },
     // 点击某个商品item时，传递参数id
@@ -349,9 +349,11 @@ export default {
             margin-bottom: 14px;
             transition: all 0.7s;
             .product-img {
-              width: 190px;
+              width: 236px;
               height: 195px;
               margin-top: 24px;
+              // padding:20px;
+              box-sizing: border-box;
             }
             a {
               display: inline-block;
@@ -373,10 +375,6 @@ export default {
                 color: $colorA;
                 margin-right: 5px;
                 font-size: $fontJ;
-              }
-              .price {
-                text-decoration: line-through;
-                color: #b0b0b0;
               }
               .cart-pro {
                 display: inline-block;
