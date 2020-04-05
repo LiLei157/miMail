@@ -60,15 +60,15 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from "vuex";
 export default {
   name: "login",
   data() {
     return {
       //用户信息，包括用户名和密码
-      loginInfo:{
-        username:'',
-        password:''
+      loginInfo: {
+        username: "",
+        password: ""
       },
       loginList: [
         {
@@ -104,8 +104,8 @@ export default {
     // 登录处理：包括校检用户名和密码
     loginHandler() {
       // 获取输入框内容并判断，把错误信息赋值给warning中的span
-      let {username,password} = this.loginInfo
-      console.log(username,password)
+      let { username, password } = this.loginInfo;
+      console.log(username, password);
       if (username == "") {
         this.wraningText = "请输入账号";
       } else if (password == "") {
@@ -118,19 +118,19 @@ export default {
             password
           })
           .then(res => {
-            console.log(res)
+            console.log(res);
             //将服务器返回的userId设置到cookie中，每次发送请求就会自动在cookie上加上userId作为身份识别
-            this.$cookie.set('userId',res.id,1)
+            this.$cookie.set("userId", res.id, 1);
             // 登录成功时vuex事件派发
-            console.log('dispatch:',res.username)
+            console.log("dispatch:", res.username);
             // //1、 通过dispatch()方法可以触发actions,可以通过mapAction的解构赋值简化
             // this.$store.dispatch('saveUserName',res.username)
-            this.saveUserName(res.username)
+            this.saveUserName(res.username);
             this.$router.push({ path: "/#/index" });
-          })
+          });
       }
     },
-    ...mapActions(['saveUserName']),
+    ...mapActions(["saveUserName"]),
     phoneHandler() {},
     registerHandler() {},
     passwordHandler() {

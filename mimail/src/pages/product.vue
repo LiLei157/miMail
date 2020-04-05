@@ -3,7 +3,7 @@
     <product-params>
       <!-- 通过<template></template>标签中使用v-slot:插槽类名指令  来往插槽内填内容 -->
       <template v-slot:navbar>
-        <button class="btn sureBtn">立即购买</button>
+        <button class="btn sureBtn" @click="buy">立即购买</button>
       </template>
     </product-params>
     <div class="content">
@@ -30,6 +30,7 @@
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
+      <!-- 视频部分 -->
     </div>
   </div>
 </template>
@@ -48,6 +49,7 @@ export default {
   },
   data() {
     return {
+      // id:this.$route.params.id,
       //轮播图数据
       banners: [
         "/imgs/product/gallery-2.png",
@@ -69,6 +71,14 @@ export default {
         }
       }
     };
+  },
+  methods:{
+    // 立即购买
+    buy(){
+      //获取当前路由的路径参数id,并添加到跳转detail页面的路径参数
+      let id = this.$route.params.id
+      this.$router.push(`/detail/${id}`)
+    }
   }
 };
 </script>
@@ -82,6 +92,7 @@ export default {
     width: 110px;
     height: 30px;
     margin-left: 10px;
+    cursor: pointer;
   }
   .content {
     width: 100%;

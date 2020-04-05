@@ -155,7 +155,7 @@ export default {
           imgUrl: "/imgs/slider/slide-3.jpg"
         },
         {
-          id: "47",
+          id: "",
           imgUrl: "/imgs/slider/slide-4.jpg"
         }
       ],
@@ -192,22 +192,24 @@ export default {
     this.getProductList();
   },
   methods: {
-    // 获取商品列表并赋值
+    //获取商品列表并赋值
     getProductList() {
-      this.axios.get("/products",{params:{
-        categoryId:100012,
-        pageSize:8
-      }}).then(res => {
-        // console.log(res);
-        // // log('index',res)
-        this.productList = res.list;
-        console.log(this.productList)
-      });
+      this.axios
+        .get("/products", {
+          params: {
+            categoryId: 100012,
+            pageSize: 8
+          }
+        })
+        .then(res => {
+          this.productList = res.list;
+          console.log(this.productList);
+        });
     },
     // 点击某个商品item时，传递参数id
     openDialog(id) {
       this.isShow = true;
-      console.log("商品id："+id)
+      console.log("商品id：" + id);
     },
     closeDialog() {
       this.isShow = false;

@@ -50,6 +50,7 @@
         border-top: 1px solid $colorH;
         background-color: #fff;
         transition: position 5s;
+        z-index: 10;
         .container{
             @include flex();
             p{

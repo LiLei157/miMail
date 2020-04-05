@@ -69,6 +69,9 @@ export default {
   methods: {
     closeDialog() {
       this.$emit("closeDialog");
+    },
+    sureHandler(){
+     
     }
   }
 };

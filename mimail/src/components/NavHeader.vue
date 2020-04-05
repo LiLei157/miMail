@@ -26,7 +26,8 @@
 
           <a href="javascript:;" class="cart">
             <span class="icon-cart"></span>
-            购物车({{cartCount}})
+            购物车
+            <span v-if="cartCount != 0">({{cartCount}})</span>
           </a>
         </div>
       </div>
@@ -83,7 +84,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import {mapState} from 'vuex';
 export default {
   name: "nav-header",
   data() {
@@ -115,13 +116,16 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      username: state => state.username,
-      cartCount:state => state.cartCount
-    })
+    username(){
+      return this.$store.state.username
+    },
+    cartCount(){
+      return this.$store.state.cartCount
+    }
   },
-  mounted() {
+  created() {
     this.getProductList();
+    this.getCartCount();
   },
   methods: {
     //获取商品列表
@@ -166,10 +170,16 @@ export default {
           this.axios.post('/user/logout').then(res =>{
             console.log(res)
             this.$store.dispatch('saveUserName','')
-            this.$router.replace({path:'/login'})
+            this.$store.dispatch('saveCartCount',0)
           })
                   
       }
+    },
+    //获取购物车列表
+    getCartCount(){
+      this.axios.get('/carts/products/sum').then(res =>{
+        this.$store.dispatch('saveCartCount',res)
+      })
     }
   },
   //局部的过滤器
