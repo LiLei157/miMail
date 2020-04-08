@@ -17,5 +17,8 @@ export default{
      */
     saveCartCount(state,count){
         state.cartCount = count
+    },
+    saveAddressForm(state,addressForm){
+        state.addressFormData = addressForm
     }
 }

@@ -24,7 +24,7 @@
           <a href="javascript:;" v-if="!username" @click="toLogin">登录</a>
           <a href="javascript:;" v-if="!username">注册</a>
 
-          <a href="javascript:;" class="cart">
+          <a href="javascript:;" class="cart" @click="cartClickHandler">
             <span class="icon-cart"></span>
             购物车
             <span v-if="cartCount != 0">({{cartCount}})</span>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-// import {mapState} from 'vuex';
+import {mapState} from 'vuex';
 export default {
   name: "nav-header",
   data() {
@@ -116,12 +116,16 @@ export default {
     };
   },
   computed: {
-    username(){
-      return this.$store.state.username
-    },
-    cartCount(){
-      return this.$store.state.cartCount
-    }
+    // username(){
+    //   return this.$store.state.username
+    // },
+    // cartCount(){
+    //   return this.$store.state.cartCount
+    // }
+    ...mapState({
+      username:state => state.username,
+      cartCount:state => state.cartCount
+    })
   },
   created() {
     this.getProductList();
@@ -180,6 +184,10 @@ export default {
       this.axios.get('/carts/products/sum').then(res =>{
         this.$store.dispatch('saveCartCount',res)
       })
+    },
+    // 点击进入购物车页面
+    cartClickHandler(){
+      this.username ? this.$router.push({path:'/cart'}) : this.$router.push({path:'/login'})
     }
   },
   //局部的过滤器

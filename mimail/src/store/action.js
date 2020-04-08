@@ -12,5 +12,8 @@ export default{
     },
     saveCartCount(context,count){
         context.commit('saveCartCount',count)
+    },
+    saveAddressForm(context,addressForm){
+        context.commit('saveAddressForm',addressForm)
     }
 }

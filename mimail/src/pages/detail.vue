@@ -37,7 +37,7 @@
           <ul>
             <li v-for="(item,index) in proVersion.configVersion"
              :key='index' 
-             @click="configClick(index)" 
+             @click="configClick(item,index)" 
              :class="configVersionIndex == index ? 'active':''" >
               {{item.type}}
               <span>{{item.price}}元</span>
@@ -46,30 +46,31 @@
           <p>选择颜色</p>
           <ul>
             <li 
-            v-for="index in proVersion.colorVersion" 
+            v-for="(item,index) in proVersion.colorVersion" 
             :key="index"
-            
-            >{{index}}</li>
+            @click="colorClick(item,index)"
+            :class="colorVersionIndex == index ? 'active': ''"
+            >{{item}}</li>
           </ul>
         </div>
         <!-- 汇总 -->
         <div class="summmary">
           <div class="left">
             <span>小米8</span>
-            <span>6GB+64GB 全网通</span>
-            <span>珍珠白</span>
+            <span>{{this.active.config.type}}</span>
+            <span>{{this.active.color}}</span>
           </div>
           <div class="right">
-            <span>1099</span>
-            <span>1499</span>
+            <!-- <span>{{this.active.config.price}}</span>
+            <span v-if="this.active.config.discount">1499</span> -->
           </div>
           <div class="sum-price">
             <span>总计：</span>
-            <span>1099</span>
+            <span>{{this.active.config.price}}</span>
           </div>
         </div>
         <div class="button">
-          <button class="btn sureBtn">加入购物车</button>
+          <button class="btn sureBtn" @click="addCart">加入购物车</button>
           <button class="btn cancelBtn">喜欢</button>
         </div>
       </div>
@@ -119,7 +120,8 @@ export default {
       detail:{},
       // 需要双向绑定的字段
       configVersionIndex:0, // 配置版本号索引，用于设置选中样式
-      
+      colorVersionIndex:0,
+      addressFormData:{},
       form:{
         name:'',
         phone:'',
@@ -173,6 +175,10 @@ export default {
           }
         ],
         colorVersion:['珍珠白','闪耀黑','靓丽红','炫酷紫']
+      },
+      active:{
+        config:'',
+        color:''
       }
     }
   },
@@ -192,12 +198,32 @@ export default {
     closeDialog(){
       this.isShow = false
     },
-    configClick(index){
+    // 配置版本点击事件主要做了2件事：1、点击选中的时候应用active样式  2、把点击项的值传到data中的变量中
+    configClick(item,index){
       this.configVersionIndex = index
+      this.active.config = item
+    },
+    colorClick(item,index){
+      this.colorVersionIndex = index
+      this.active.color = item
     },
     transmit(val){
-      this.form = val
+      this.addressFormData = val
+      this.$store.dispatch('saveAddressForm',this.addressFormData)
+      console.log(this.addressFormData)
+      // 保存到vuex之后置空
+      this.addressFormData = {}
+      console.log(this.addressFormData)
       this.isShow = false
+    },
+    //添加商品至购物车
+    addCart(){
+      this.axios.post('/carts',{
+        productId:this.id,
+        selected:true
+      }).then(res =>{
+        console.log(res)
+      })
     }
   },
   created() {
@@ -213,10 +239,10 @@ export default {
 .detail {
   .container {
     .left-swiper {
-      width: 384px;
-      height: 486px;
+      width: 642px;
+      
       img{
-        width:384px;
+        width:100%;
       }
     }
     // 右侧详情
@@ -353,6 +379,7 @@ export default {
       .button{
         height: 54px;
         margin-bottom: 50px;
+        cursor:pointer;
         .sureBtn{
           width: 300px;
           height: 100%;
