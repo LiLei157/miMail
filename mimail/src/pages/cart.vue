@@ -55,7 +55,7 @@
               </div>
               <div class="col5">{{item.productTotalPrice}}</div>
               <div class="col6">
-                <div class="operation"></div>
+                <div class="operation" @click="delProduct(item)"></div>
               </div>
             </li>
           </ul>  
@@ -75,7 +75,7 @@
               合计：
               <span>{{this.cartTotalPrice}}</span>元
             </span>
-            <span class="btn sureBtn">去结算</span>
+            <span class="btn sureBtn" @click="goPay">去结算</span>
           </div>
         </div>
       </div>
@@ -159,6 +159,18 @@ export default {
         .then(res => {
           this.renderData(res);
         });
+    },
+    // 删除商品
+    delProduct(item){
+      this.axios.delete(`/carts/${item.productId}`,{
+        productId:item.productId
+      }).then(res =>{
+        this.renderData(res)
+      })
+    },
+    //结算按钮，点击进入地址选择页面
+    goPay(){
+      this.selectedProductTotal == 0 ? alert('请至少选择一件商品') : this.$router.push({name:'orderConfirm'})
     },
     // 数据赋值，每一次购物车列表选中和非选中，数量+，-都需要重新渲染一次数据
     renderData(res) {

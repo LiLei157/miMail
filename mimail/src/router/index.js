@@ -54,22 +54,22 @@ export default new VueRouter({
       children:[
         {
           path:'orderList',
-          name:'order-list',
+          name:'orderList',
           component:OrderList
         },
         {
-          path:'orderConfirm/:id',
-          name:'order-confirm',
+          path:'orderConfirm',
+          name:'orderConfirm',
           component:OrderConfirm
         },
         {
-          path:'orderPay/:id',
-          name:'order-pay',
+          path:'orderPay',
+          name:'orderPay',
           component:OrderPay
         },
         {
           path:'aliPay',
-          name:'ali-pay',
+          name:'aliPay',
           component:AliPay
         }
       ]
