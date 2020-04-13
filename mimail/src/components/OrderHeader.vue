@@ -6,8 +6,8 @@
         <div class="nav-logo">
           <a href="/#/index"></a>
         </div>
-        <div class="title">我的购物车</div>
-        <div class="discribe">温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</div>
+        <div class="title">{{largeTitle}}</div>
+        <div class="discribe">{{discribeTitle}}</div>
       </div>
       <div class="right">
         <p>{{username}}</p>
@@ -20,8 +20,15 @@
 import { mapState } from "vuex";
 export default {
   name: "order-header",
+  props:{
+    //大标题
+    largeTitle:String,
+    //旁边的描述性文字
+    discribeTitle:String
+  },
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     ...mapState({

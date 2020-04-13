@@ -129,7 +129,10 @@ export default {
   },
   created() {
     this.getProductList();
-    this.getCartCount();
+    let params = this.$route.params
+    if(params && params.from == 'login'){
+      this.getCartCount()
+    }
   },
   methods: {
     //获取商品列表
@@ -152,7 +155,7 @@ export default {
     },
     //登录
     toLogin() {
-      this.$router.push({ path: "/login" });
+      this.$router.push({ name: "login" });
     },
     // 登录之后的用户信息下的子menu
     clickMenuHandler(type){
@@ -173,6 +176,7 @@ export default {
           //退出登录:1、发送post请求退出登录 2、将vuex中的username设置为空  3、跳转到登录页面
           this.axios.post('/user/logout').then(res =>{
             console.log(res)
+            this.$cookie.set('userId','',{expires:'-1'})
             this.$store.dispatch('saveUserName','')
             this.$store.dispatch('saveCartCount',0)
           })
@@ -187,7 +191,8 @@ export default {
     },
     // 点击进入购物车页面
     cartClickHandler(){
-      this.username ? this.$router.push({path:'/cart'}) : this.$router.push({path:'/login'})
+      // this.username ? this.$router.push({path:'/cart'}) : this.$router.push({path:'/login'})
+      this.$router.push({path:'/cart'})
     }
   },
   //局部的过滤器
@@ -211,6 +216,12 @@ export default {
     height: 40px;
     line-height: 40px;
     background-color: #333;
+    a:hover{
+      color:$colorA
+    }
+    a:last-child:hover{
+      color: #fff
+    }
     .container {
       @include flex();
       .topbar-user {

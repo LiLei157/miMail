@@ -18,23 +18,23 @@ axios.defaults.baseURL = "/api" // 根据前端跨域方案的不同，而选择
 axios.defaults.timeout = 8000;  // 设置超时时间
 // axios响应拦截，对服务器返回的接口数据进行处理
 axios.interceptors.response.use(function(response){
-  let res = response.data
-  // res.status请求状态码与后台一起定义
+  let res = response.data;
   if(res.status == 0){
-    // 请求成功，返回请求数据data
-    return res.data
+    return res.data;
   }else if(res.status == 10){
-    // 获取当前页面的hash路径，如果已经在login页面了，则无需再跳转至login页面
-    let path = location.hash
-    if(path != '/#/login'){
-      // 代码10：表示未登录
-    window.location.href = "/#/login"
-    }
+    window.location.href = '/#/login';
+    return Promise.reject(res);
   }else{
-    alert(res.msg)
-    return Promise.reject(res)
+    // Message.warning(res.msg);
+    return Promise.reject(res);
   }
-})
+},(error)=>{
+  // let res = error.response;
+  // Message.error(res.data.message);
+  return Promise.reject(error);
+});
+
+
 Vue.use(vueCookie)
 Vue.use(ElementUI)
 //全局使用axios

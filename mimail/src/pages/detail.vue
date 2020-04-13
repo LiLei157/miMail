@@ -222,7 +222,8 @@ export default {
         productId:this.id,
         selected:true
       }).then(res =>{
-        console.log(res)
+        // console.log(res)
+        this.$store.dispatch('saveCartCount',res.cartTotalQuantity)
       })
     }
   },

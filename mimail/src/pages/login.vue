@@ -120,13 +120,14 @@ export default {
           .then(res => {
             console.log(res);
             //将服务器返回的userId设置到cookie中，每次发送请求就会自动在cookie上加上userId作为身份识别
-            this.$cookie.set("userId", res.id, 1);
+            this.$cookie.set("userId", res.id, {expires:'Session'});
             // 登录成功时vuex事件派发
             console.log("dispatch:", res.username);
             // //1、 通过dispatch()方法可以触发actions,可以通过mapAction的解构赋值简化
             // this.$store.dispatch('saveUserName',res.username)
             this.saveUserName(res.username);
-            this.$router.push({ path: "/#/index" });
+            // 当登录成功时，携带from参数跳转到index页
+            this.$router.push({ name: "index",params:{from:'login'}});
           });
       }
     },
