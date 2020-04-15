@@ -31,7 +31,7 @@ export default {
           this.$emit('transmit',this.form)
       }
   },
-  created(){
+  mounted(){
       console.log(this.form)
       console.log(this.formList) 
   }

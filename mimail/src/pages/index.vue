@@ -208,8 +208,13 @@ export default {
     },
     // 点击某个商品item时，传递参数id
     openDialog(id) {
-      this.isShow = true;
-      console.log("商品id：" + id);
+      // console.log("商品id：" + id);
+      this.axios.post('/carts',{
+        productId:id,
+        selected:true
+      }).then(() =>{
+        this.isShow = true;
+      })
     },
     closeDialog() {
       this.isShow = false;
