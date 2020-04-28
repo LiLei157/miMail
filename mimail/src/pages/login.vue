@@ -133,7 +133,16 @@ export default {
     },
     ...mapActions(["saveUserName"]),
     phoneHandler() {},
-    registerHandler() {},
+    // 注册账号
+    registerHandler() {
+      this.axios.post('/user/register',{
+        username:'lilei',
+        password:'lilei',
+        email:'www.1213564228@qq.com'
+      }).then(() =>{
+        console.log('register....')
+      })
+    },
     passwordHandler() {
       console.log("忘记密码??");
     }

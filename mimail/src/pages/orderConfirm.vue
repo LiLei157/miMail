@@ -6,12 +6,13 @@
         <div class="address-box">
           <p class="title">收货地址</p>
           <ul class="add-list">
-            <li 
+            <li
               class="add-item"
               v-for="(item,index) in addList"
               :key="index"
               :class="checkIndex == index ? 'checked':''"
-              @click="clickSelected(item,index)">
+              @click="clickSelected(item,index)"
+            >
               <p class="name">{{item.receiverName}}</p>
               <p class="phone">{{item.receiverMobile}}</p>
               <p class="address">
@@ -78,8 +79,8 @@
             </div>
             <!-- 返回购物车和去结算按钮 -->
             <div class="btn-box clearfix">
-                <div class="btn sureBtn f-right" @click="clickPay">去结算</div>
-                <div class="btn cancelBtn f-right" @click="backCart">返回购物车</div>
+              <div class="btn sureBtn f-right" @click="clickPay">去结算</div>
+              <div class="btn cancelBtn f-right" @click="backCart">返回购物车</div>
             </div>
           </div>
         </div>
@@ -114,7 +115,8 @@ export default {
       //请求购物车返回的数据对象
       cartsRes: {},
       //地址索引，用于设置点击选中样式
-      checkIndex:-1,
+      checkIndex:0,
+      addressId:0,  // 地址id号，结算时需要添加一个query参数
       // 用于存储已选中的地址项
       selectedAddress:{},
       // 弹出层显示状态，默认不显示
@@ -193,6 +195,7 @@ export default {
     getAddressList() {
       this.axios.get("/shippings").then(res => {
         this.addList = res.list;
+        console.log(this.addList)
       });
     },
     //获取已选中商品列表：只需要筛选当前购物车列表中每一项item的选中状态为true
@@ -219,17 +222,16 @@ export default {
     // 点击选中
     clickSelected(item,index){
       this.checkIndex = index
+      this.addressId = item.id
       console.log(index,item)
-      this.axios(`/shippings/${item.id}`).then((res)=>{
+      this.axios.get(`/shippings/${item.id}`).then((res)=>{
         this.selectedAddress = res
       })
     },
-
-    //更新地址：未完成
+  //更新地址：未完成
     editAddr(item) {
       this.form = item;
       this.isShow = true;
-      console.log(this.form);
       //   this.transmit()
     },
     //关闭对话框
@@ -242,7 +244,13 @@ export default {
     },
     // 跳转到支付页面结算，跳转时会把当前选中的address地址作为参数传递到下个页面
     clickPay(){
-      this.$router.push({name:'orderPay',params:{selectedAdd:this.selectedAddress}})
+      // 点击结算创建订单,把订单号作为query查询参数传给下个页面
+      console.log(this.addressId)
+      this.axios('/orders',{params:{
+        shippingId:this.addressId
+      }}).then(()=>{
+        this.$router.push({path:'orderPay',query:{shippingId:this.addressId}})
+      })
     },
     //对子组件Form传递的数据进行处理
     transmit(form) {
@@ -336,7 +344,7 @@ export default {
                 color: $colorA;
               }
             }
-            &.checked{
+            &.checked {
               border: 1px solid $colorA;
             }
           }
@@ -467,16 +475,16 @@ export default {
           }
           .btn-box {
             padding: 30px 0;
-              .btn {
-                width: 202px;
-                height: 50px;
-                line-height: 50px;
-                cursor: pointer;
-              }
-              .cancelBtn {
-                margin-right: 10px;
-                cursor: pointer;
-              }
+            .btn {
+              width: 202px;
+              height: 50px;
+              line-height: 50px;
+              cursor: pointer;
+            }
+            .cancelBtn {
+              margin-right: 10px;
+              cursor: pointer;
+            }
           }
         }
       }

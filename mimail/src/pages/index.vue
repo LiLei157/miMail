@@ -212,8 +212,9 @@ export default {
       this.axios.post('/carts',{
         productId:id,
         selected:true
-      }).then(() =>{
+      }).then((res) =>{
         this.isShow = true;
+        this.$store.dispatch('saveCartCount',res.cartTotalQuantity)
       })
     },
     closeDialog() {
